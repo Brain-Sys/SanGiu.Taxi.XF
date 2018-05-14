@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SanGiu.Taxi.XF"
-             x:Class="SanGiu.Taxi.XF.MainPage">
+             x:Class="SanGiu.Taxi.XF.MainPage"
+             Title="Taxi - Login">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -10,7 +11,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="80" />
         </Grid.RowDefinitions>
-        
+
         <BoxView Grid.Row="0" Color="Red" Margin="0" />
         <Label VerticalOptions="Center"
                TextColor="WhiteSmoke"
@@ -22,12 +23,11 @@
                      HorizontalOptions="FillAndExpand"
                      Margin="16,0">
             <Label Text="Username" />
-            <Entry />
+            <Entry x:Name="txtUsername" />
             <Label Text="Password" />
-            <Entry IsPassword="True" />
-            <Button Text="Login" />
+            <Entry IsPassword="True" x:Name="txtPassword" />
+            <Button x:Name="btnLogin" Text="Login" Clicked="btnLogin_Clicked" />
         </StackLayout>
-
 
         <BoxView Grid.Row="2" Color="Green" Margin="0" />
         <Label HorizontalOptions="End" VerticalOptions="Center"
