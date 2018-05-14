@@ -1,24 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <CarouselPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:SanGiu.Taxi.XF.Pages" 
              x:Class="SanGiu.Taxi.XF.MenuPage"
              Title="Menù Principale">
     <CarouselPage.Children>
-        <ContentPage>
-            <Button Text="MENU PAGE 1" FontSize="Large" />
-        </ContentPage>
-
-        <ContentPage>
-            <Label Text="MENU PAGE 2" FontSize="Large" />
-        </ContentPage>
-
-        <!-- solo se l'utente è Admin -->
-        <ContentPage x:Name="page3">
-            <Label Text="MENU PAGE 3" FontSize="Large" />
-        </ContentPage>
-
-        <ContentPage x:Name="page4">
-            <Label Text="MENU PAGE 4" FontSize="Large" />
-        </ContentPage>
+        <pages:AnagraficaPage />
+        <pages:FatturazionePage></pages:FatturazionePage>
+        <pages:AdminPage></pages:AdminPage>
+        <pages:AboutPage/>
     </CarouselPage.Children>
 </CarouselPage>

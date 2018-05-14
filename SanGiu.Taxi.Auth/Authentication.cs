@@ -15,6 +15,13 @@ namespace SanGiu.Taxi.Auth
                 result.Success = true;
             }
 
+            if (username == "corso" && password == "macerata2")
+            {
+                result.IDUser = 4;
+                result.Role = "Admin";
+                result.Success = true;
+            }
+
             return result;
         }
     }

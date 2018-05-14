@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SanGiu.Taxi.XF.Pages.AnagraficaPage">
+    <Label Text="Anagrafica" FontSize="Large" />
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Order="Primary" Text="A" />
+        <ToolbarItem Order="Primary" Text="B" />
+        <ToolbarItem Order="Secondary" Text="C" />
+        <ToolbarItem Order="Secondary" Text="D" />
+    </ContentPage.ToolbarItems>
+</ContentPage>

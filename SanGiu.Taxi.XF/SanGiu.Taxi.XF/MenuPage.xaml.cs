@@ -32,8 +32,8 @@ namespace SanGiu.Taxi.XF
                 //this.Children.Remove(this.page3);
                 //this.Children.Remove(this.page4);
 
-                this.Children.RemoveAt(2);
-                this.Children.RemoveAt(2);
+                this.Children.RemoveAt(1);
+                this.Children.RemoveAt(1);
             }
         }
     }
