@@ -1,4 +1,5 @@
 ﻿using SanGiu.Taxi.Auth;
+using SanGiu.Taxi.XF.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace SanGiu.Taxi.XF
             if (lr.Success == true)
             {
                 // Pagina successiva
-                MenuPage pg = new MenuPage(lr);
+                var pg = new MenuPage(lr);
                 await this.Navigation.PushAsync(pg);
                 // await this.Navigation.PushModalAsync(pg);
             }
