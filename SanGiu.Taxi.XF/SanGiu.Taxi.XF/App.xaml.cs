@@ -11,7 +11,7 @@ namespace SanGiu.Taxi.XF
 		{
 			InitializeComponent();
 
-			MainPage = new MainPage();
+			this.MainPage = new MainPage();
 		}
 
 		protected override void OnStart ()

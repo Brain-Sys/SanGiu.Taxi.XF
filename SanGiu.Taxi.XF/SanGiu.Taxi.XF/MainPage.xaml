@@ -4,11 +4,35 @@
              xmlns:local="clr-namespace:SanGiu.Taxi.XF"
              x:Class="SanGiu.Taxi.XF.MainPage">
 
-    <StackLayout>
-        <!-- Place new controls here -->
-    	<Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="80" />
+        </Grid.RowDefinitions>
+        
+        <BoxView Grid.Row="0" Color="Red" Margin="0" />
+        <Label VerticalOptions="Center"
+               TextColor="WhiteSmoke"
+               Margin="16,0,0,0"
+               Text="Taxi Manager v.0.1 (alpha)" />
+
+        <BoxView Grid.Row="1" Color="Yellow" Margin="0" />
+        <StackLayout Grid.Row="1" VerticalOptions="Center"
+                     HorizontalOptions="FillAndExpand"
+                     Margin="16,0">
+            <Label Text="Username" />
+            <Entry />
+            <Label Text="Password" />
+            <Entry IsPassword="True" />
+            <Button Text="Login" />
+        </StackLayout>
+
+
+        <BoxView Grid.Row="2" Color="Green" Margin="0" />
+        <Label HorizontalOptions="End" VerticalOptions="Center"
+               Grid.Row="2" TextColor="White"
+               Text="14:20" Margin="0,0,16,0" />
+    </Grid>
 
 </ContentPage>
