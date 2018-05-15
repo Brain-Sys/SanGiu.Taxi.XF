@@ -13,8 +13,7 @@
     </ContentPage.BindingContext>
 
     <Grid>
-        <StackLayout VerticalOptions="Center" Margin="12,0"
-                 BackgroundColor="Red">
+        <StackLayout VerticalOptions="Center" Margin="12,0">
             <Label Text="Nome Utente" />
             <Entry Text="{Binding Username}" />
             <Label Text="Password" />
@@ -37,6 +36,12 @@
 
         <Label VerticalOptions="End" HorizontalOptions="End"
                Text="{Binding CurrentTime,StringFormat='{}{0:HH:mm:ss}'}" />
+
+        <Frame BackgroundColor="Red" VerticalOptions="Center"
+               HorizontalOptions="Center" Padding="16"
+               IsVisible="{Binding Error}">
+            <Label Text="{Binding Message}" HorizontalTextAlignment="Center" />
+        </Frame>
 
     </Grid>
 

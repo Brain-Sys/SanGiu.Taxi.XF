@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SanGiu.Taxi.Auth\SanGiu.Taxi.Auth.csproj" />
   </ItemGroup>
 
