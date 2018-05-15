@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Messaging;
 using SanGiu.Taxi.Auth;
+using SanGiu.Taxi.ViewModels.Messages;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -70,11 +72,23 @@ namespace SanGiu.Taxi.ViewModels
             {
                 this.Error = true;
                 this.Message = "Login fallito!";
+
+                Messenger.Default.Send<ShowDialogMessage>
+                    (new ShowDialogMessage() {
+                        Title = "Login Fallito",
+                        Message = "Controlla le credenziali!"
+                    });
             }
             else
             {
                 this.Error = false;
                 this.Message = string.Empty;
+
+                Messenger.Default.Send<OpenViewMessage>
+                    (new OpenViewMessage() {
+                        NewPage = "MenuPage",
+                        Parameter = lr
+                    });
             }
         }
     }
