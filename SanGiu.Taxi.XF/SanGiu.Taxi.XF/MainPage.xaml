@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:SanGiu.Taxi.XF"
              x:Class="SanGiu.Taxi.XF.MainPage"
              Title="Taxi - Login">
+    <ContentPage.BackgroundColor>
+        <OnPlatform x:TypeArguments="Color"
+                    Android="Red" WinPhone="LightGreen" iOS="Aqua" />
+    </ContentPage.BackgroundColor>
+
+    <ContentPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                            Android="0,0,0,0"
+                            iOS="0,20,0,0"
+                            WinPhone="100" />
+    </ContentPage.Padding>
 
     <Grid>
         <Grid.RowDefinitions>

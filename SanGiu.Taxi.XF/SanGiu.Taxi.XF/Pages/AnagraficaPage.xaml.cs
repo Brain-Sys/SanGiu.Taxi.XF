@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SanGiu.Taxi.Repo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,25 @@ using Xamarin.Forms.Xaml;
 
 namespace SanGiu.Taxi.XF.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AnagraficaPage : ContentPage
-	{
-		public AnagraficaPage ()
-		{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AnagraficaPage : ContentPage
+    {
+        public AnagraficaPage()
+        {
             //var rd = Application.Current.Resources;
             //var s = rd["Xamarin.Forms.Button"];
 
-            InitializeComponent ();
-		}
-	}
+            InitializeComponent();
+        }
+
+        private void btnPrint_Clicked(object sender, EventArgs e)
+        {
+            Repository repo = this.Resources["localRepo"] as Repository;
+
+            if (repo != null)
+            {
+                this.txtInfo.Text = repo.Username + "; " + repo.ServerName;
+            }
+        }
+    }
 }

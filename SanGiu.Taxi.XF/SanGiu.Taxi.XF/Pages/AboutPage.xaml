@@ -10,6 +10,15 @@
                    FontAttributes="Bold" LineBreakMode="CharacterWrap"
                    FontSize="Medium" />
         </Frame>
+
+        <Label>
+            <Label.Text>
+                <OnPlatform x:TypeArguments="x:String"
+                            Android="sei sotto Android"
+                            WinPhone="sei sotto Windows" />
+            </Label.Text>
+        </Label>
+
         <Button x:Name="btnChangeTheme" Text="Cambia tema"
                 Clicked="btnChangeTheme_Clicked" />
     </StackLayout>

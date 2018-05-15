@@ -14,6 +14,16 @@ namespace SanGiu.Taxi.XF
         public MainPage()
         {
             InitializeComponent();
+
+            // Device.OnPlatform(() => { });
+
+            switch (Device.RuntimePlatform)
+            {
+                case Device.iOS:
+                    {
+                        break;
+                    }
+            }
         }
 
         protected override void OnAppearing()

@@ -1,9 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:repo="clr-namespace:SanGiu.Taxi.Repo;assembly=SanGiu.Taxi.Repo"
              x:Class="SanGiu.Taxi.XF.Pages.AnagraficaPage">
 
     <ContentPage.Resources>
+        <repo:Repository x:Key="localRepo" Password="">
+            <x:Arguments>
+                <x:String>abc</x:String>
+            </x:Arguments>
+            <repo:Repository.ServerName>
+                <OnPlatform x:TypeArguments="x:String" Android="192.168.0.1" iOS="192.168.0.2"
+                            WinPhone="192.168.0.3" />
+            </repo:Repository.ServerName>
+        </repo:Repository>
         <!-- chocoEdit è globale (App.xaml) -->
         <Style TargetType="Button" BasedOn="{StaticResource Key=Xamarin.Forms.Button}">
             <Setter Property="BackgroundColor" Value="BlueViolet" />
@@ -17,8 +27,8 @@
     
     <StackLayout>
         <Label Text="Anagrafica" FontSize="Large" />
-        <Entry Style="{StaticResource localChocoEdit}" />
-        <Button Text="Stampa!" />
+        <Entry x:Name="txtInfo" Style="{StaticResource localChocoEdit}" />
+        <Button Text="Stampa!" x:Name="btnPrint" Clicked="btnPrint_Clicked" />
     </StackLayout>
 
     <ContentPage.ToolbarItems>
