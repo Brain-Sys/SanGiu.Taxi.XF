@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SanGiu.Taxi.ViewModels;assembly=SanGiu.Taxi.ViewModels"
+             x:Class="SanGiu.Taxi.XF.LoginPage">
+
+    <ContentPage.Resources>
+        <vm:LoginViewModel x:Key="viewmodel" />
+    </ContentPage.Resources>
+
+    <ContentPage.BindingContext>
+        <StaticResource Key="viewmodel" />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <StackLayout VerticalOptions="Center" Margin="12,0"
+                 BackgroundColor="Red">
+            <Label Text="Nome Utente" />
+            <Entry Text="{Binding Username}" />
+            <Label Text="Password" />
+            <Entry IsPassword="True" Text="{Binding Password}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackLayout Orientation="Horizontal" Scale="0.7">
+                    <Label Text="ricordami" VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding Path=Remember}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+                <Button Grid.Column="1" Text="Accedi"
+                    x:Name="btnLogin" Clicked="btnLogin_Clicked" />
+            </Grid>
+
+        </StackLayout>
+
+        <Label VerticalOptions="End" HorizontalOptions="End"
+               Text="{Binding CurrentTime,StringFormat='{}{0:HH:mm:ss}'}" />
+
+    </Grid>
+
+</ContentPage>

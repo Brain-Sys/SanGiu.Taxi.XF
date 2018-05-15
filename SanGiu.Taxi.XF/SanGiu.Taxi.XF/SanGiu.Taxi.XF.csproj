@@ -11,9 +11,13 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SanGiu.Taxi.Auth\SanGiu.Taxi.Auth.csproj" />
     <ProjectReference Include="..\..\SanGiu.Taxi.Repo\SanGiu.Taxi.Repo.csproj" />
+    <ProjectReference Include="..\..\SanGiu.Taxi.ViewModels\SanGiu.Taxi.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="LoginPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="MenuPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
