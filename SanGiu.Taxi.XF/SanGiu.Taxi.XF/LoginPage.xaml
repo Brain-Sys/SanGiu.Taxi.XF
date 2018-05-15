@@ -40,7 +40,8 @@
         <Frame BackgroundColor="Red" VerticalOptions="Center"
                HorizontalOptions="Center" Padding="16"
                IsVisible="{Binding Error}">
-            <Label Text="{Binding Message}" HorizontalTextAlignment="Center" />
+            <Label Text="{Binding Message}"
+                   HorizontalTextAlignment="Center" />
         </Frame>
 
     </Grid>

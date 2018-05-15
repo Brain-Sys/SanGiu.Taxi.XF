@@ -15,7 +15,14 @@ namespace SanGiu.Taxi.XF
 	{
 		public LoginPage ()
 		{
-			InitializeComponent ();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+
+            }
 		}
 
         private void btnLogin_Clicked(object sender, EventArgs e)
