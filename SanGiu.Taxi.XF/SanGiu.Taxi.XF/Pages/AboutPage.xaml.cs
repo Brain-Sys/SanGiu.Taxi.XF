@@ -16,5 +16,13 @@ namespace SanGiu.Taxi.XF.Pages
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void btnChangeTheme_Clicked(object sender, EventArgs e)
+        {
+            var mb = (Color)Application.Current.Resources["MainBrand"];
+            mb = Color.Red;
+
+            Application.Current.Resources["MainBrand"] = mb;
+        }
+    }
 }

@@ -14,7 +14,10 @@ namespace SanGiu.Taxi.XF.Pages
 	{
 		public AnagraficaPage ()
 		{
-			InitializeComponent ();
+            //var rd = Application.Current.Resources;
+            //var s = rd["Xamarin.Forms.Button"];
+
+            InitializeComponent ();
 		}
 	}
 }

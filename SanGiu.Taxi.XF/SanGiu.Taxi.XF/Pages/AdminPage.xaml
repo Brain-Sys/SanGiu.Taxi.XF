@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:s="clr-namespace:SanGiu.Taxi.XF.Styles"
              x:Class="SanGiu.Taxi.XF.Pages.AdminPage">
-    <Label Text="Amministrazione" FontSize="Large" />
+    <!--<ContentPage.Resources>
+        <s:DefaultStyles />
+    </ContentPage.Resources>-->
+
+    <StackLayout>
+        <Label BackgroundColor="{StaticResource warning}" Text="Amministrazione" FontSize="Large" />
+    </StackLayout>
+
 </ContentPage>

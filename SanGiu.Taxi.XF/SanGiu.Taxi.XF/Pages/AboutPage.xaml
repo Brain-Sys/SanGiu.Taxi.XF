@@ -2,5 +2,15 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SanGiu.Taxi.XF.Pages.AboutPage">
-    <Label Text="Informazioni su" FontSize="Large" />
+    <StackLayout>
+        <Label Text="Informazioni su" FontSize="Large" />
+        <Frame Padding="20" Margin="0"
+               BackgroundColor="{DynamicResource MainBrand}">
+            <Label Text="{StaticResource currentVersion}"
+                   FontAttributes="Bold" LineBreakMode="CharacterWrap"
+                   FontSize="Medium" />
+        </Frame>
+        <Button x:Name="btnChangeTheme" Text="Cambia tema"
+                Clicked="btnChangeTheme_Clicked" />
+    </StackLayout>
 </ContentPage>

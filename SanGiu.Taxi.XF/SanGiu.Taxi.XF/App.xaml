@@ -2,7 +2,25 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SanGiu.Taxi.XF.App">
-	<Application.Resources>
-    
-	</Application.Resources>
+    <Application.Resources>
+        <x:String x:Key="currentVersion">v.1.0 (alpha)</x:String>
+        <x:Double x:Key="DefaultWeight">40</x:Double>
+        <Color x:Key="MainBrand">#90A1F7</Color>
+
+        <!-- stile implicito per il controllo Button -->
+        <!-- la x:Key di questo stile è typeof(Button) -->
+        <Style TargetType="Button">
+            <Setter Property="BorderColor" Value="Red" />
+            <Setter Property="BorderRadius" Value="6" />
+            <Setter Property="BorderWidth" Value="6" />
+            <Setter Property="BackgroundColor" Value="LightYellow"/>
+        </Style>
+
+        <Style TargetType="Entry" x:Key="chocoEdit">
+            <Setter Property="FontAttributes" Value="Italic" />
+            <Setter Property="Placeholder" Value="inserire qui il testo..."/>
+            <Setter Property="BackgroundColor" Value="Chocolate" />
+            <Setter Property="PlaceholderColor" Value="WhiteSmoke" />
+        </Style>
+    </Application.Resources>
 </Application>

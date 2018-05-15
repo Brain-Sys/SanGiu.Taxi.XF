@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SanGiu.Taxi.XF.Styles.DefaultStylesEven">
+    <x:Array Type="{x:Type x:String}" x:Key="Values">
+        <x:String>Opzione 1</x:String>
+        <x:String>Opzione 2</x:String>
+        <x:String>Opzione 3</x:String>
+        <x:String>Opzione 4</x:String>
+        <x:String>Opzione 5</x:String>
+        <x:String>Opzione 6</x:String>
+    </x:Array>
+    <Color x:Key="warning">Yellow</Color>
+</ResourceDictionary>
