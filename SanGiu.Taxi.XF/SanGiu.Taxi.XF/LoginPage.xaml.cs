@@ -25,10 +25,11 @@ namespace SanGiu.Taxi.XF
             }
 		}
 
+        // Not used anymore
         private void btnLogin_Clicked(object sender, EventArgs e)
         {
-            var vm = this.Resources["viewmodel"] as LoginViewModel;
-            vm.CheckLogin();
+            //var vm = this.Resources["viewmodel"] as LoginViewModel;
+            //vm.CheckLogin();
         }
     }
 }

@@ -8,11 +8,11 @@
         <vm:LoginViewModel x:Key="viewmodel" />
     </ContentPage.Resources>
 
-    <ContentPage.BindingContext>
+    <!--<ContentPage.BindingContext>
         <StaticResource Key="viewmodel" />
-    </ContentPage.BindingContext>
+    </ContentPage.BindingContext>-->
 
-    <Grid>
+    <Grid BindingContext="{StaticResource viewmodel}">
         <StackLayout VerticalOptions="Center" Margin="12,0">
             <Label Text="Nome Utente" />
             <Entry Text="{Binding Username}" />
@@ -29,7 +29,7 @@
                         VerticalOptions="Center" />
                 </StackLayout>
                 <Button Grid.Column="1" Text="Accedi"
-                    x:Name="btnLogin" Clicked="btnLogin_Clicked" />
+                        Command="{Binding LoginCommand}" />
             </Grid>
 
         </StackLayout>
