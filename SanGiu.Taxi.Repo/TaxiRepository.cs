@@ -57,8 +57,8 @@ namespace SanGiu.Taxi.Repo
         {
             try
             {
-                conn.CreateTable<d.Taxi>();
-                //conn.CreateTable<d.Taxi>(CreateFlags.AutoIncPK);
+                //conn.CreateTable<d.Taxi>();
+                conn.CreateTable<d.Taxi>(CreateFlags.ImplicitPK | CreateFlags.AutoIncPK);
 
                 int count = conn.Table<d.Taxi>().Count();
 
@@ -69,7 +69,7 @@ namespace SanGiu.Taxi.Repo
                     for (int i = 0; i < 1000; i++)
                     {
                         var t = d.Taxi.CreateRandom();
-                        t.Id = i + 1;
+                        //t.Id = i + 1;
                         list.Add(t);
                     }
 
