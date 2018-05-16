@@ -27,9 +27,13 @@ namespace SanGiu.Taxi.Repo
             }
         }
 
-        public List<d.Taxi> GetTaxiListForHomePage()
+        public List<d.Taxi> GetTaxiListForHomePage(int minimumKm = 5000, int count = 500)
         {
-            return conn.Table<d.Taxi>().OrderBy(t => t.Km).ToList();
+            return conn.Table<d.Taxi>()
+                .Where(t => t.Km >= minimumKm)
+                //.OrderBy(t => t.Km)
+                .Take(count)
+                .ToList();
         }
 
         public TaxiRepository(string filename)
@@ -37,6 +41,11 @@ namespace SanGiu.Taxi.Repo
             try
             {
                 conn = new SQLiteConnection(filename);
+                conn.Tracer = logSql;
+                conn.Trace = true;
+
+                var tm = conn.GetMapping<d.Taxi>(CreateFlags.AllImplicit);
+                // tm.Columns.FirstOrDefault(c => c.Name == "Id").
             }
             catch (Exception ex)
             {
@@ -49,6 +58,7 @@ namespace SanGiu.Taxi.Repo
             try
             {
                 conn.CreateTable<d.Taxi>();
+                //conn.CreateTable<d.Taxi>(CreateFlags.AutoIncPK);
 
                 int count = conn.Table<d.Taxi>().Count();
 
@@ -56,9 +66,11 @@ namespace SanGiu.Taxi.Repo
                 {
                     var list = new List<d.Taxi>();
 
-                    for (int i = 0; i < 200000; i++)
+                    for (int i = 0; i < 1000; i++)
                     {
-                        list.Add(d.Taxi.CreateRandom());
+                        var t = d.Taxi.CreateRandom();
+                        t.Id = i + 1;
+                        list.Add(t);
                     }
 
                     conn.BeginTransaction();
@@ -70,6 +82,18 @@ namespace SanGiu.Taxi.Repo
             {
 
             }
+        }
+
+        public bool Update(d.Taxi taxi)
+        {
+            conn.Update(taxi);
+
+            return true;
+        }
+
+        private void logSql(string sql)
+        {
+            Debug.WriteLine(sql);
         }
     }
 }

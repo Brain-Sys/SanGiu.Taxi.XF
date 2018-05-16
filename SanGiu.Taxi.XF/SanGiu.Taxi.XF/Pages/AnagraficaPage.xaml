@@ -40,7 +40,28 @@
 
         <ListView Grid.Row="1" ItemsSource="{Binding Items}"
                   SelectedItem="{Binding SelectedTaxi}">
-            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Entry Text="{Binding Targa}" Grid.Column="0" />
+                            <Slider Minimum="0" Maximum="400000"
+                                    Value="{Binding Km}"
+                                    Grid.Column="1" />
+                            <Button Grid.Column="2" Text="aggiorna"
+                                    Command="{Binding UpdateCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}" />
+
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
 
         <Button Text="Stampa!" x:Name="btnPrint" Clicked="btnPrint_Clicked" Grid.Row="2" />

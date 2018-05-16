@@ -157,7 +157,7 @@ namespace SanGiu.Taxi.ViewModels
             await Task.Run(async () =>
             {
 #if DEBUG
-                await Task.Delay(2000);
+                await Task.Delay(500);
 #endif
 
                 var lr = Authentication.Check(this.Username, this.Password);

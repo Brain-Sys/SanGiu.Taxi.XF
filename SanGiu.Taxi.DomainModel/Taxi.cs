@@ -6,6 +6,7 @@ namespace SanGiu.Taxi.DomainModel
     {
         static Random rnd = new Random((int)DateTime.Now.Ticks);
 
+        public int Id { get; set; }
         public string Targa { get; set; }
         public int Km { get; set; }
         public double Prezzo { get; set; }

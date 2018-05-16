@@ -1,8 +1,11 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.Repo;
 using SanGiu.Taxi.ViewModels.Messages;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using d = SanGiu.Taxi.DomainModel;
 namespace SanGiu.Taxi.ViewModels
 {
@@ -36,11 +39,31 @@ namespace SanGiu.Taxi.ViewModels
             }
         }
 
+        public RelayCommand<d.Taxi> UpdateCommand { get; set; }
+
         public AnagraficaViewModel()
         {
+            this.UpdateCommand = new RelayCommand<d.Taxi>(UpdateCommandExecute, UpdateCommandCanExecute);
+
             var msg = new DependencyMessage<IStorage>();
             msg.Resolved = initRepository;
             Messenger.Default.Send(msg);
+        }
+
+        private bool UpdateCommandCanExecute(d.Taxi instance)
+        {
+            return true;
+        }
+
+        private async void UpdateCommandExecute(d.Taxi instance)
+        {
+            this.IsBusy = true;
+
+            await Task.Run(() => {
+                repo.Update(instance);
+            });
+
+            this.IsBusy = false;
         }
 
         private void showAutista()
