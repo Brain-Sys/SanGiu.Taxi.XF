@@ -44,7 +44,7 @@ namespace SanGiu.Taxi.Repo
                 conn.Tracer = logSql;
                 conn.Trace = true;
 
-                var tm = conn.GetMapping<d.Taxi>(CreateFlags.AllImplicit);
+                //var tm = conn.GetMapping<d.Taxi>(CreateFlags.AllImplicit);
                 // tm.Columns.FirstOrDefault(c => c.Name == "Id").
             }
             catch (Exception ex)
@@ -58,7 +58,9 @@ namespace SanGiu.Taxi.Repo
             try
             {
                 //conn.CreateTable<d.Taxi>();
-                conn.CreateTable<d.Taxi>(CreateFlags.ImplicitPK | CreateFlags.AutoIncPK);
+
+                var flag = CreateFlags.ImplicitPK | CreateFlags.AutoIncPK;
+                conn.CreateTable<d.Taxi>(flag);
 
                 int count = conn.Table<d.Taxi>().Count();
 
