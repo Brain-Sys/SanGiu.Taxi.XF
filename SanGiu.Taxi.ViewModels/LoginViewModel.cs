@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using SanGiu.Taxi.Auth;
+using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.ViewModels.Messages;
 using System;
 using System.ComponentModel;
@@ -97,11 +98,32 @@ namespace SanGiu.Taxi.ViewModels
 
             // Init delle proprietà
             this.Error = false;
-            this.Username = "corso";
-            this.Password = "macerata2";
+            //this.Username = "corso";
+            //this.Password = "macerata2";
+            this.loadCredentials();
             this.CurrentTime = DateTime.Now;
             this.Remember = true;
             timer = new Timer(updateTimer, null, 0, 1000);
+        }
+
+        private void loadCredentials()
+        {
+            var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
+            var dir = resolver.GetCurrentDirectory();
+            dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
+
+            if (File.Exists(dir))
+            {
+                string content = File.ReadAllText(dir);
+                string[] parts = content.Split(new string[] { "|||" },
+                    StringSplitOptions.RemoveEmptyEntries);
+
+                if (parts.Length == 2)
+                {
+                    this.Username = parts[0];
+                    this.Password = parts[1];
+                }
+            }
         }
 
         private void updateTimer(object obj)
@@ -142,8 +164,10 @@ namespace SanGiu.Taxi.ViewModels
                 if (this.Remember)
                 {
                     // Salvo su file le credenziali
-                    var dir = System.Environment.CurrentDirectory;
-                    File.WriteAllText($"{dir}\\Cred.txt", $"{this.Username}|||{this.Password}");
+                    var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
+                    var dir = resolver.GetCurrentDirectory();
+                    dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
+                    File.WriteAllText(dir, $"{this.Username}|||{this.Password}");
                 }
 
                 Messenger.Default.Send<OpenViewMessage>
