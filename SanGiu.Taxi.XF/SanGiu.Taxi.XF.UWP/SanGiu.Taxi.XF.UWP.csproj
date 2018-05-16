@@ -92,6 +92,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\WindowsStorage.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -147,6 +148,10 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SanGiu.Taxi.Interfaces\SanGiu.Taxi.Interfaces.csproj">
+      <Project>{F6D57445-2004-4A90-B898-DE922D0DE024}</Project>
+      <Name>SanGiu.Taxi.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SanGiu.Taxi.XF\SanGiu.Taxi.XF.csproj">
       <Project>{20DAA065-DBFC-475B-A5F9-4540253AA2C6}</Project>
       <Name>SanGiu.Taxi.XF</Name>
