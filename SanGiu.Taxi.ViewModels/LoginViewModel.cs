@@ -109,24 +109,31 @@ namespace SanGiu.Taxi.ViewModels
 
         private void loadCredentials()
         {
-            var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
-            if (resolver == null) return;
+            var msg = new DependencyMessage<IStorage>();
 
-            var dir = resolver.GetCurrentDirectory();
-            dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
+            // Funzione di callback
+            msg.Resolved = (IStorage resolver) => {
+                if (resolver == null) return;
 
-            if (File.Exists(dir))
-            {
-                string content = File.ReadAllText(dir);
-                string[] parts = content.Split(new string[] { "|||" },
-                    StringSplitOptions.RemoveEmptyEntries);
+                var dir = resolver.GetCurrentDirectory();
+                dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
 
-                if (parts.Length == 2)
+                if (File.Exists(dir))
                 {
-                    this.Username = parts[0];
-                    this.Password = parts[1];
+                    string content = File.ReadAllText(dir);
+                    string[] parts = content.Split(new string[] { "|||" },
+                        StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length == 2)
+                    {
+                        this.Username = parts[0];
+                        this.Password = parts[1];
+                    }
                 }
-            }
+            };
+
+            // Spedisco il messaggio
+            Messenger.Default.Send<DependencyMessage<IStorage>>(msg);
         }
 
         private void updateTimer(object obj)
@@ -177,14 +184,7 @@ namespace SanGiu.Taxi.ViewModels
 
                     if (this.Remember)
                     {
-                        // Salvo su file le credenziali
-                        var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
-                        if (resolver != null)
-                        {
-                            var dir = resolver.GetCurrentDirectory();
-                            dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
-                            File.WriteAllText(dir, $"{this.Username}|||{this.Password}");
-                        }
+                        saveCredentialsOnFile();
                     }
 
                     Messenger.Default.Send<OpenViewMessage>
@@ -198,6 +198,25 @@ namespace SanGiu.Taxi.ViewModels
             });
 
             this.IsBusy = false;
+        }
+
+        private void saveCredentialsOnFile()
+        {
+            // Salvo su file le credenziali
+            var msg = new DependencyMessage<IStorage>();
+            msg.Resolved = saveFile;
+            // Posso evitare di specificare il generics
+            Messenger.Default.Send(msg);
+        }
+
+        private void saveFile(IStorage resolver)
+        {
+            if (resolver != null)
+            {
+                var dir = resolver.GetCurrentDirectory();
+                dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
+                File.WriteAllText(dir, $"{this.Username}|||{this.Password}");
+            }
         }
     }
 }

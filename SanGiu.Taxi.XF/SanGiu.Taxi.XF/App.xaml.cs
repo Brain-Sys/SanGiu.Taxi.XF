@@ -1,4 +1,5 @@
 using GalaSoft.MvvmLight.Messaging;
+using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.ViewModels.Messages;
 using System;
 using Xamarin.Forms;
@@ -11,6 +12,7 @@ namespace SanGiu.Taxi.XF
     {
         public App()
         {
+            configureMessages();
             InitializeComponent();
 
             // this.MainPage = new NavigationPage(new MainPage());
@@ -20,7 +22,7 @@ namespace SanGiu.Taxi.XF
         protected override void OnStart()
         {
             // Handle when your app starts
-            configureMessages();
+            
         }
 
         protected override void OnSleep()
@@ -37,6 +39,14 @@ namespace SanGiu.Taxi.XF
         {
             Messenger.Default.Register<ShowDialogMessage>(this, showMsg);
             Messenger.Default.Register<OpenViewMessage>(this, openView);
+            Messenger.Default.Register<DependencyMessage<IStorage>>(this, resolveDependency);
+        }
+
+        private void resolveDependency(DependencyMessage<IStorage> obj)
+        {
+            // La chiamata a Resolved "rimbalza" verso il viewmodel iniettando
+            // l'instanza della classe concreta che risolve IStorage
+            obj.Resolved(DependencyService.Get<IStorage>());
         }
 
         private void openView(OpenViewMessage obj)

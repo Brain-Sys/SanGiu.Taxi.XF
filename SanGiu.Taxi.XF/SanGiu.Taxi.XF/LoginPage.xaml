@@ -48,7 +48,7 @@
         </Frame>
 
         <ActivityIndicator IsRunning="{Binding IsBusy}"
-                           Color="Red" BackgroundColor="Blue"
+                           Color="Red"
                            IsVisible="{Binding IsBusy}" />
 
     </Grid>
