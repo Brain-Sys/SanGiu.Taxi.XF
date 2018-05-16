@@ -9,10 +9,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace SanGiu.Taxi.ViewModels
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : ApplicationViewModelBase
     {
         private Timer timer;
 
@@ -109,6 +110,8 @@ namespace SanGiu.Taxi.ViewModels
         private void loadCredentials()
         {
             var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
+            if (resolver == null) return;
+
             var dir = resolver.GetCurrentDirectory();
             dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
 
@@ -140,43 +143,61 @@ namespace SanGiu.Taxi.ViewModels
             return true;
         }
 
-        private void loginCommandExecute()
+        private async void loginCommandExecute()
         {
-            var lr = Authentication.Check(this.Username, this.Password);
+            this.IsBusy = true;
 
-            if (lr.Success == false)
+            await Task.Run(async () =>
             {
-                this.Error = true;
-                this.Message = "Login fallito!";
+#if DEBUG
+                await Task.Delay(5000);
+#endif
 
-                Messenger.Default.Send<ShowDialogMessage>
-                    (new ShowDialogMessage()
-                    {
-                        Title = "Login Fallito",
-                        Message = "Controlla le credenziali!"
-                    });
-            }
-            else
-            {
-                this.Error = false;
-                this.Message = string.Empty;
+                var lr = Authentication.Check(this.Username, this.Password);
 
-                if (this.Remember)
+                #region Success == false
+                if (lr.Success == false)
                 {
-                    // Salvo su file le credenziali
-                    var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
-                    var dir = resolver.GetCurrentDirectory();
-                    dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
-                    File.WriteAllText(dir, $"{this.Username}|||{this.Password}");
-                }
+                    this.Error = true;
+                    this.Message = "Login fallito!";
 
-                Messenger.Default.Send<OpenViewMessage>
-                    (new OpenViewMessage()
+                    Messenger.Default.Send<ShowDialogMessage>
+                        (new ShowDialogMessage()
+                        {
+                            Title = "Login Fallito",
+                            Message = "Controlla le credenziali!"
+                        });
+                }
+                #endregion
+                #region Success == true
+                else
+                {
+                    this.Error = false;
+                    this.Message = string.Empty;
+
+                    if (this.Remember)
                     {
-                        NewPage = "MenuPage",
-                        Parameter = lr
-                    });
-            }
+                        // Salvo su file le credenziali
+                        var resolver = Xamarin.Forms.DependencyService.Get<IStorage>();
+                        if (resolver != null)
+                        {
+                            var dir = resolver.GetCurrentDirectory();
+                            dir = $"{dir}{Path.DirectorySeparatorChar}Cred.txt";
+                            File.WriteAllText(dir, $"{this.Username}|||{this.Password}");
+                        }
+                    }
+
+                    Messenger.Default.Send<OpenViewMessage>
+                        (new OpenViewMessage()
+                        {
+                            NewPage = "MenuPage",
+                            Parameter = lr
+                        });
+                }
+                #endregion
+            });
+
+            this.IsBusy = false;
         }
     }
 }

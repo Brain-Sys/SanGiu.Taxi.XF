@@ -39,7 +39,7 @@ namespace SanGiu.Taxi.XF
             Messenger.Default.Register<OpenViewMessage>(this, openView);
         }
 
-        private async void openView(OpenViewMessage obj)
+        private void openView(OpenViewMessage obj)
         {
             Type type = Type.GetType("SanGiu.Taxi.XF." + obj.NewPage);
 
@@ -58,7 +58,9 @@ namespace SanGiu.Taxi.XF
 
                 if (pg != null)
                 {
-                    await this.MainPage.Navigation.PushModalAsync(pg);
+                    Device.BeginInvokeOnMainThread(async () => {
+                        await this.MainPage.Navigation.PushModalAsync(pg);
+                    });
                 }
             }
         }
