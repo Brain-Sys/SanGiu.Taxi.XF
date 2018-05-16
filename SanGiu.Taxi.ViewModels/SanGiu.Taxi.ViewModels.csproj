@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SanGiu.Taxi.Auth\SanGiu.Taxi.Auth.csproj" />
     <ProjectReference Include="..\SanGiu.Taxi.Interfaces\SanGiu.Taxi.Interfaces.csproj" />
+    <ProjectReference Include="..\SanGiu.Taxi.Repo\SanGiu.Taxi.Repo.csproj" />
   </ItemGroup>
 
 </Project>

@@ -33,7 +33,7 @@ namespace SanGiu.Taxi.XF.Droid.Implementations
 
         public string GetDbDirectory()
         {
-            string str3 = (string)Android.OS.Environment.DataDirectory;
+            string str3 = (string)Android.OS.Environment.ExternalStorageDirectory + "/";
 
             return str3;
         }

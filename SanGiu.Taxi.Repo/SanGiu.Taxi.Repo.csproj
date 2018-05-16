@@ -4,4 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SanGiu.Taxi.DomainModel\SanGiu.Taxi.DomainModel.csproj" />
+  </ItemGroup>
+
 </Project>
