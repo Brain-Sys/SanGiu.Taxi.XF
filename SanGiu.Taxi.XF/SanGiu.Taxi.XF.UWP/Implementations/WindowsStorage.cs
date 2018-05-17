@@ -19,7 +19,7 @@ namespace SanGiu.Taxi.XF.UWP.Implementations
 
         public string GetDbDirectory()
         {
-            return ApplicationData.Current.RoamingFolder.Path;
+            return ApplicationData.Current.RoamingFolder.Path + "\\";
         }
     }
 }
