@@ -43,7 +43,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid>
+                        <Grid BackgroundColor="{Binding Status}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -54,9 +54,6 @@
                             <Slider Minimum="0" Maximum="400000"
                                     Value="{Binding Km}"
                                     Grid.Column="1" />
-
-
-
                             <StackLayout Grid.Column="2" Scale="0.6" Orientation="Horizontal">
                                 <Button Text="aggiorna"
                                     Command="{Binding UpdateCommand,Source={StaticResource viewmodel}}"
@@ -65,10 +62,6 @@
                                     Command="{Binding RemoveCommand,Source={StaticResource viewmodel}}"
                                     CommandParameter="{Binding Id}" />
                             </StackLayout>
-
-
-
-
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

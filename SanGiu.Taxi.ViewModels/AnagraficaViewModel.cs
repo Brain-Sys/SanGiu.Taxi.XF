@@ -7,8 +7,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using d = SanGiu.Taxi.DomainModel;
+//using d = SanGiu.Taxi.DomainModel;
 using System.Collections.ObjectModel;
+using SanGiu.Taxi.ViewModels.VM;
 
 namespace SanGiu.Taxi.ViewModels
 {
@@ -16,8 +17,8 @@ namespace SanGiu.Taxi.ViewModels
     {
         TaxiRepository repo;
 
-        private ObservableCollection<d.Taxi> items;
-        public ObservableCollection<d.Taxi> Items
+        private ObservableCollection<TaxiVM> items;
+        public ObservableCollection<TaxiVM> Items
         {
             get { return items; }
             set
@@ -30,8 +31,8 @@ namespace SanGiu.Taxi.ViewModels
             }
         }
 
-        private d.Taxi selectedTaxi;
-        public d.Taxi SelectedTaxi
+        private TaxiVM selectedTaxi;
+        public TaxiVM SelectedTaxi
         {
             get { return selectedTaxi; }
             set
@@ -42,12 +43,12 @@ namespace SanGiu.Taxi.ViewModels
             }
         }
 
-        public RelayCommand<d.Taxi> UpdateCommand { get; set; }
+        public RelayCommand<TaxiVM> UpdateCommand { get; set; }
         public RelayCommand<int> RemoveCommand { get; set; }
 
         public AnagraficaViewModel()
         {
-            this.UpdateCommand = new RelayCommand<d.Taxi>(UpdateCommandExecute, UpdateCommandCanExecute);
+            this.UpdateCommand = new RelayCommand<TaxiVM>(UpdateCommandExecute, UpdateCommandCanExecute);
             this.RemoveCommand = new RelayCommand<int>(RemoveCommandExecute);
 
             var msg = new DependencyMessage<IStorage>();
@@ -73,17 +74,17 @@ namespace SanGiu.Taxi.ViewModels
             Messenger.Default.Send<QuestionMessage>(msg);
         }
 
-        private bool UpdateCommandCanExecute(d.Taxi instance)
+        private bool UpdateCommandCanExecute(TaxiVM instance)
         {
             return true;
         }
 
-        private async void UpdateCommandExecute(d.Taxi instance)
+        private async void UpdateCommandExecute(TaxiVM instance)
         {
             this.IsBusy = true;
 
             await Task.Run(() => {
-                repo.Update(instance);
+                repo.Update(instance.InternalInstance);
             });
 
             this.IsBusy = false;
@@ -101,12 +102,15 @@ namespace SanGiu.Taxi.ViewModels
 
         private void initRepository(IStorage resolver)
         {
-            var filename = resolver.GetDbDirectory() +
-                    "taxi.db";
+            var filename = resolver.GetDbDirectory() + "taxi.db";
 
             repo = new TaxiRepository(filename);
             repo.CheckDB();
-            this.Items = new ObservableCollection<d.Taxi>(repo.GetTaxiListForHomePage());
+
+            var list = repo.GetTaxiListForHomePage()
+                .Select(t => new TaxiVM(t));
+
+            this.Items = new ObservableCollection<TaxiVM>(list);
         }
     }
 }
