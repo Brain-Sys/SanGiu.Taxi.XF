@@ -139,7 +139,7 @@ namespace SanGiu.Taxi.ViewModels
         private void updateTimer(object obj)
         {
             this.CurrentTime = DateTime.Now;
-            Debug.WriteLine(this.CurrentTime);
+            //Debug.WriteLine(this.CurrentTime);
         }
 
         private bool loginCommandCanExecute()

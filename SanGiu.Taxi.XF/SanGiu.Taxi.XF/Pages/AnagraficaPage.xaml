@@ -4,29 +4,34 @@
              xmlns:repo="clr-namespace:SanGiu.Taxi.Repo;assembly=SanGiu.Taxi.Repo"
              xmlns:vm="clr-namespace:SanGiu.Taxi.ViewModels;assembly=SanGiu.Taxi.ViewModels"
              xmlns:dm="clr-namespace:SanGiu.Taxi.DomainModel;assembly=SanGiu.Taxi.DomainModel"
+             xmlns:s="clr-namespace:SanGiu.Taxi.XF.Styles"
              x:Class="SanGiu.Taxi.XF.Pages.AnagraficaPage">
 
     <ContentPage.Resources>
-        <vm:AnagraficaViewModel x:Key="viewmodel" />
-        <repo:Repository x:Key="localRepo" Password="">
-            <x:Arguments>
-                <x:String>abc</x:String>
-            </x:Arguments>
-            <repo:Repository.ServerName>
-                <OnPlatform x:TypeArguments="x:String" Android="192.168.0.1" iOS="192.168.0.2"
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <s:AnagraficaResources />
+            </ResourceDictionary.MergedDictionaries>
+
+            <repo:Repository x:Key="localRepo" Password="">
+                <x:Arguments>
+                    <x:String>abc</x:String>
+                </x:Arguments>
+                <repo:Repository.ServerName>
+                    <OnPlatform x:TypeArguments="x:String" Android="192.168.0.1" iOS="192.168.0.2"
                             WinPhone="192.168.0.3" />
-            </repo:Repository.ServerName>
-        </repo:Repository>
-        <!-- chocoEdit è globale (App.xaml) -->
-        <Style TargetType="Button" BasedOn="{StaticResource Key=Xamarin.Forms.Button}">
-            <Setter Property="BackgroundColor" Value="BlueViolet" />
-        </Style>
-        <Style TargetType="Entry" x:Key="localChocoEdit"
+                </repo:Repository.ServerName>
+            </repo:Repository>
+            <!-- chocoEdit è globale (App.xaml) -->
+            <Style TargetType="Button" BasedOn="{StaticResource Key=Xamarin.Forms.Button}">
+                <Setter Property="BackgroundColor" Value="BlueViolet" />
+            </Style>
+            <Style TargetType="Entry" x:Key="localChocoEdit"
                BasedOn="{StaticResource chocoEdit}">
-            <Setter Property="TextColor" Value="Green" />
-        </Style>
-        
-        
+                <Setter Property="TextColor" Value="Green" />
+            </Style>
+
+        </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid BindingContext="{StaticResource viewmodel}">
@@ -42,48 +47,8 @@
         </StackLayout>
 
         <ListView Grid.Row="1" ItemsSource="{Binding Items}"
-                  SelectedItem="{Binding SelectedTaxi}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Grid>
-                            <Grid.Triggers>
-                                <DataTrigger TargetType="Grid" Binding="{Binding Status}"
-                                             Value="{x:Static dm:TaxiStatus.Ok}">
-                                    <Setter Property="BackgroundColor" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Grid" Binding="{Binding Status}"
-                                             Value="{x:Static dm:TaxiStatus.Warning}">
-                                    <Setter Property="BackgroundColor" Value="Orange" />
-                                </DataTrigger>
-                                <DataTrigger TargetType="Grid" Binding="{Binding Status}"
-                                             Value="{x:Static dm:TaxiStatus.Danger}">
-                                    <Setter Property="BackgroundColor" Value="DarkViolet" />
-                                </DataTrigger>
-                            </Grid.Triggers>
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <Entry Text="{Binding Targa}" Grid.Column="0" />
-                            <Slider Minimum="0" Maximum="400000"
-                                    Value="{Binding Km}"
-                                    Grid.Column="1" />
-                            <StackLayout Grid.Column="2" Scale="0.6" Orientation="Horizontal">
-                                <Button Text="aggiorna"
-                                    Command="{Binding UpdateCommand,Source={StaticResource viewmodel}}"
-                                    CommandParameter="{Binding}" />
-                                <Button Text="cancella"
-                                    Command="{Binding RemoveCommand,Source={StaticResource viewmodel}}"
-                                    CommandParameter="{Binding Id}" />
-                            </StackLayout>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                  SelectedItem="{Binding SelectedTaxi}"
+                  ItemTemplate="{StaticResource taxiListTemplate}">
         </ListView>
 
         <Button Text="Stampa!" x:Name="btnPrint" Clicked="btnPrint_Clicked" Grid.Row="2" />

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SanGiu.Taxi.ViewModels;assembly=SanGiu.Taxi.ViewModels"
+             xmlns:dm="clr-namespace:SanGiu.Taxi.DomainModel;assembly=SanGiu.Taxi.DomainModel"
+             x:Class="SanGiu.Taxi.XF.Styles.AnagraficaResources">
+
+    <vm:AnagraficaViewModel x:Key="viewmodel" />
+
+    <DataTemplate x:Key="taxiListTemplate">
+        <ViewCell>
+            <Grid>
+                <Grid.Triggers>
+                    <DataTrigger TargetType="Grid" Binding="{Binding Status}"
+                                             Value="{x:Static dm:TaxiStatus.Ok}">
+                        <Setter Property="BackgroundColor" Value="Green" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Grid" Binding="{Binding Status}"
+                                             Value="{x:Static dm:TaxiStatus.Warning}">
+                        <Setter Property="BackgroundColor" Value="Orange" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Grid" Binding="{Binding Status}"
+                                             Value="{x:Static dm:TaxiStatus.Danger}">
+                        <Setter Property="BackgroundColor" Value="DarkViolet" />
+                    </DataTrigger>
+                </Grid.Triggers>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Entry Text="{Binding Targa}" Grid.Column="0" />
+                <Slider Minimum="0" Maximum="400000"
+                                    Value="{Binding Km}"
+                                    Grid.Column="1" />
+                <StackLayout Grid.Column="2" Scale="0.6" Orientation="Horizontal">
+                    <Button Text="aggiorna"
+                                    Command="{Binding UpdateCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding}" />
+                    <Button Text="cancella"
+                                    Command="{Binding RemoveCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding Id}" />
+                </StackLayout>
+            </Grid>
+        </ViewCell>
+    </DataTemplate>
+
+</ResourceDictionary>
