@@ -5,17 +5,22 @@ using SanGiu.Taxi.ViewModels.VM;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SanGiu.Taxi.ViewModels
 {
     public class TaxiDetailViewModel : ApplicationViewModelBase
     {
+        CancellationTokenSource tokenSource;
+
         private TaxiVM currentItem;
         public TaxiVM CurrentItem
         {
             get { return currentItem; }
-            set { currentItem = value;
+            set
+            {
+                currentItem = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -24,7 +29,9 @@ namespace SanGiu.Taxi.ViewModels
         public double Latitude
         {
             get { return latitude; }
-            set { latitude = value;
+            set
+            {
+                latitude = value;
                 base.RaisePropertyChanged();
             }
         }
@@ -41,10 +48,15 @@ namespace SanGiu.Taxi.ViewModels
         }
 
         public RelayCommand GetPositionCommand { get; set; }
+        public RelayCommand CancelGpsCommand { get; set; }
 
         public TaxiDetailViewModel()
         {
             this.GetPositionCommand = new RelayCommand(GetPositionCommandExecute, GetPositionCommandCanExecute);
+            this.CancelGpsCommand = new RelayCommand(() =>
+            {
+                tokenSource.Cancel();
+            }, () => { return this.IsBusy; });
         }
 
         private bool GetPositionCommandCanExecute()
@@ -70,8 +82,9 @@ namespace SanGiu.Taxi.ViewModels
 #if DEBUG
                 await Task.Delay(10000);
 #endif
-
-                Position position = await CrossGeolocator.Current.GetPositionAsync(TimeSpan.FromMinutes(1));
+                tokenSource = new CancellationTokenSource();
+                Position position = await CrossGeolocator.Current
+                    .GetPositionAsync(TimeSpan.FromMinutes(1), tokenSource.Token);
 
                 this.Latitude = position.Latitude;
                 this.Longitude = position.Longitude;
