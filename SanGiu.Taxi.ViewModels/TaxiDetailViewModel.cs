@@ -90,7 +90,7 @@ namespace SanGiu.Taxi.ViewModels
                 this.Latitude = position.Latitude;
                 this.Longitude = position.Longitude;
 
-                await test();
+                await getAddressInfo();
                 //var addresses = await CrossGeolocator.Current.GetAddressesForPositionAsync(position, "");
                 //foreach (var item in addresses)
                 //{
@@ -102,14 +102,16 @@ namespace SanGiu.Taxi.ViewModels
             this.GetPositionCommand.RaiseCanExecuteChanged();
         }
 
-        private async Task test()
+        private async Task getAddressInfo()
         {
             string stringLatitude = latitude.ToString().Replace(',', '.');
             string stringLongitude = longitude.ToString().Replace(',', '.');
             string url = string.Format("http://maps.googleapis.com/maps/api/geocode/xml?latlng={0},{1}&sensor=false", stringLatitude, stringLongitude);
 
-            HttpClient client = new HttpClient();
-            string xml = await client.GetStringAsync(url);
+            using (HttpClient client = new HttpClient())
+            {
+                string xml = await client.GetStringAsync(url);
+            }
         }
     }
 }

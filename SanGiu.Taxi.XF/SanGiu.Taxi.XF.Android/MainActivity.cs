@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Xamarin;
 
 namespace SanGiu.Taxi.XF.Droid
 {
@@ -20,6 +21,7 @@ namespace SanGiu.Taxi.XF.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            FormsMaps.Init(this, bundle);
             var app = new App();
             LoadApplication(app);
         }

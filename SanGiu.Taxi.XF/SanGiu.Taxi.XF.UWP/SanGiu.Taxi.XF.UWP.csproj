@@ -149,6 +149,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.0.0.482510" />
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.0.1" />
+    <PackageReference Include="Xamarin.Forms.Maps">
+      <Version>2.5.0.77107</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SanGiu.Taxi.Interfaces\SanGiu.Taxi.Interfaces.csproj">
