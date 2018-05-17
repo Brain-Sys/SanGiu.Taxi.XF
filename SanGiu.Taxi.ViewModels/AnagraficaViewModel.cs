@@ -4,17 +4,20 @@ using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.Repo;
 using SanGiu.Taxi.ViewModels.Messages;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using d = SanGiu.Taxi.DomainModel;
+using System.Collections.ObjectModel;
+
 namespace SanGiu.Taxi.ViewModels
 {
     public class AnagraficaViewModel : ApplicationViewModelBase
     {
         TaxiRepository repo;
 
-        private List<d.Taxi> items;
-        public List<d.Taxi> Items
+        private ObservableCollection<d.Taxi> items;
+        public ObservableCollection<d.Taxi> Items
         {
             get { return items; }
             set
@@ -40,14 +43,34 @@ namespace SanGiu.Taxi.ViewModels
         }
 
         public RelayCommand<d.Taxi> UpdateCommand { get; set; }
+        public RelayCommand<int> RemoveCommand { get; set; }
 
         public AnagraficaViewModel()
         {
             this.UpdateCommand = new RelayCommand<d.Taxi>(UpdateCommandExecute, UpdateCommandCanExecute);
+            this.RemoveCommand = new RelayCommand<int>(RemoveCommandExecute);
 
             var msg = new DependencyMessage<IStorage>();
             msg.Resolved = initRepository;
             Messenger.Default.Send(msg);
+        }
+
+        private void RemoveCommandExecute(int id)
+        {
+            QuestionMessage msg = new QuestionMessage();
+            msg.Message = "Sei sicuro di voler eliminare?";
+            msg.Yes = () => {
+                var taxi = this.Items.FirstOrDefault(i => i.Id == id);
+
+                if (taxi != null)
+                {
+                    this.Items.Remove(taxi);
+                }
+            };
+
+            msg.No = null;
+
+            Messenger.Default.Send<QuestionMessage>(msg);
         }
 
         private bool UpdateCommandCanExecute(d.Taxi instance)
@@ -83,7 +106,7 @@ namespace SanGiu.Taxi.ViewModels
 
             repo = new TaxiRepository(filename);
             repo.CheckDB();
-            this.Items = repo.GetTaxiListForHomePage();
+            this.Items = new ObservableCollection<d.Taxi>(repo.GetTaxiListForHomePage());
         }
     }
 }

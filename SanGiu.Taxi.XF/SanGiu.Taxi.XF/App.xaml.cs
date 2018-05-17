@@ -2,6 +2,7 @@ using GalaSoft.MvvmLight.Messaging;
 using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.ViewModels.Messages;
 using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -22,7 +23,7 @@ namespace SanGiu.Taxi.XF
         protected override void OnStart()
         {
             // Handle when your app starts
-            
+
         }
 
         protected override void OnSleep()
@@ -38,8 +39,29 @@ namespace SanGiu.Taxi.XF
         private void configureMessages()
         {
             Messenger.Default.Register<ShowDialogMessage>(this, showMsg);
+            Messenger.Default.Register<QuestionMessage>(this, (msg) =>
+            {
+                Debug.WriteLine(msg.Message);
+            });
+
+            Messenger.Default.Register<QuestionMessage>(this, makeQuestion);
             Messenger.Default.Register<OpenViewMessage>(this, openView);
             Messenger.Default.Register<DependencyMessage<IStorage>>(this, resolveDependency);
+        }
+
+        private async void makeQuestion(QuestionMessage msg)
+        {
+            bool answer = await this.MainPage.DisplayAlert
+                (msg.Title, msg.Message, msg.Caption, msg.CancelCaption);
+
+            if (answer)
+            {
+                msg.Yes?.Invoke();
+            }
+            else
+            {
+                msg.No?.Invoke();
+            }
         }
 
         private void resolveDependency(DependencyMessage<IStorage> obj)
@@ -68,7 +90,8 @@ namespace SanGiu.Taxi.XF
 
                 if (pg != null)
                 {
-                    Device.BeginInvokeOnMainThread(async () => {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
                         await this.MainPage.Navigation.PushModalAsync(pg);
                     });
                 }

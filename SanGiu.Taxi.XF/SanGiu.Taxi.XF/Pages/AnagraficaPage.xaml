@@ -32,7 +32,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <StackLayout Grid.Row="0">
             <Label Text="Anagrafica" FontSize="Large" />
             <Entry x:Name="txtInfo" Style="{StaticResource localChocoEdit}" />
@@ -54,9 +54,20 @@
                             <Slider Minimum="0" Maximum="400000"
                                     Value="{Binding Km}"
                                     Grid.Column="1" />
-                            <Button Grid.Column="2" Text="aggiorna"
+
+
+
+                            <StackLayout Grid.Column="2" Scale="0.6" Orientation="Horizontal">
+                                <Button Text="aggiorna"
                                     Command="{Binding UpdateCommand,Source={StaticResource viewmodel}}"
                                     CommandParameter="{Binding}" />
+                                <Button Text="cancella"
+                                    Command="{Binding RemoveCommand,Source={StaticResource viewmodel}}"
+                                    CommandParameter="{Binding Id}" />
+                            </StackLayout>
+
+
+
 
                         </Grid>
                     </ViewCell>
