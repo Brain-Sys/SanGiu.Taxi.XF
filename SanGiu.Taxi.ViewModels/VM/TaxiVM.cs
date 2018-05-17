@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using SanGiu.Taxi.DomainModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -78,16 +79,11 @@ namespace SanGiu.Taxi.ViewModels.VM
             }
         }
 
-        public string Status
+        public TaxiStatus Status
         {
             get
             {
-                if (this.Km > 0 && this.Km <= 80000)
-                    return "Green";
-                else if (this.Km > 80000 && this.Km <= 200000)
-                    return "Orange";
-                else
-                    return "DarkViolet";
+                return InternalInstance.Status;
             }
         }
 

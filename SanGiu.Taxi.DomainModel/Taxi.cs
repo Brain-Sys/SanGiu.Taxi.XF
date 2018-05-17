@@ -17,6 +17,19 @@ namespace SanGiu.Taxi.DomainModel
             return $"{Id} - {Targa} - km.{Km}";
         }
 
+        public TaxiStatus Status
+        {
+            get
+            {
+                if (this.Km > 0 && this.Km <= 80000)
+                    return TaxiStatus.Ok;
+                else if (this.Km > 80000 && this.Km <= 200000)
+                    return TaxiStatus.Warning;
+                else
+                    return TaxiStatus.Danger;
+            }
+        }
+
         public static Taxi CreateRandom()
         {
             Taxi t = new Taxi();
