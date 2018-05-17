@@ -24,5 +24,10 @@ namespace SanGiu.Taxi.ViewModels
                 base.RaisePropertyChanged();
             }
         }
+
+        public virtual void Init()
+        {
+
+        }
     }
 }

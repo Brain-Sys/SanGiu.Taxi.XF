@@ -104,6 +104,7 @@ namespace SanGiu.Taxi.XF
                         {
                             vm = pg.Resources["viewmodel"] as ApplicationViewModelBase;
                             vm.Parameter = obj.Parameter;
+                            vm.Init();
                         }
                     }
 

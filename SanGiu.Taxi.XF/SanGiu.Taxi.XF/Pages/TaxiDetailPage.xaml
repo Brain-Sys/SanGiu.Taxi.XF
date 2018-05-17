@@ -9,7 +9,23 @@
     </TabbedPage.Resources>
 
     <!--Pages can be added as references or inline-->
-    <ContentPage Title="Dettaglio" />
-    <ContentPage Title="Socket" />
-    <ContentPage Title="GPS" />
+    <ContentPage BindingContext="{StaticResource viewmodel}" Title="GPS">
+        <StackLayout>
+            <Grid>
+                <Label Text="{Binding Path=CurrentItem.Targa}" />
+                <Frame HorizontalOptions="End" IsVisible="{Binding IsBusy}"
+                       BackgroundColor="DarkCyan" WidthRequest="16" HeightRequest="16"
+                       Padding="0">
+                    <Label VerticalOptions="Center" HorizontalOptions="Center"
+                           Text="&#x263b;" FontFamily="Arial" />
+                </Frame>
+            </Grid>
+            <Button Text="Dammi posizione" Command="{Binding GetPositionCommand}" />
+            <Entry Text="{Binding Latitude}" />
+            <Entry Text="{Binding Longitude}" />
+        </StackLayout>
+    </ContentPage>
+
+    <ContentPage BindingContext="{StaticResource viewmodel}" Title="Dettaglio" />
+    <ContentPage BindingContext="{StaticResource viewmodel}" Title="Socket" />
 </TabbedPage>
