@@ -60,7 +60,8 @@ namespace SanGiu.Taxi.ViewModels
         {
             QuestionMessage msg = new QuestionMessage();
             msg.Message = "Sei sicuro di voler eliminare?";
-            msg.Yes = () => {
+            msg.Yes = () =>
+            {
                 var taxi = this.Items.FirstOrDefault(i => i.Id == id);
 
                 if (taxi != null)
@@ -83,7 +84,8 @@ namespace SanGiu.Taxi.ViewModels
         {
             this.IsBusy = true;
 
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 repo.Update(instance.InternalInstance);
             });
 
@@ -94,9 +96,19 @@ namespace SanGiu.Taxi.ViewModels
         {
             if (this.SelectedTaxi == null) return;
 
-            var msg = new ShowDialogMessage();
+            var msg = new QuestionMessage();
             msg.Title = "Info taxi";
-            msg.Message = this.SelectedTaxi.Autista;
+            msg.Message = $"Vuoi vedere il dettaglio di {this.SelectedTaxi.Autista} ?";
+            msg.No = () => { Messenger.Default.Send(ShowDialogMessage.OperationCanceled()); };
+            msg.Yes = () =>
+            {
+                Messenger.Default.Send(new OpenViewMessage()
+                {
+                    NewPage = "TaxiDetailPage",
+                    Parameter = this.SelectedTaxi
+                });
+            };
+
             Messenger.Default.Send(msg);
         }
 

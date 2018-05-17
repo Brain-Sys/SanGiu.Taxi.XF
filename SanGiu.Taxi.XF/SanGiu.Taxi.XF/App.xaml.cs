@@ -1,5 +1,6 @@
 using GalaSoft.MvvmLight.Messaging;
 using SanGiu.Taxi.Interfaces;
+using SanGiu.Taxi.ViewModels;
 using SanGiu.Taxi.ViewModels.Messages;
 using System;
 using System.Diagnostics;
@@ -71,37 +72,47 @@ namespace SanGiu.Taxi.XF
             obj.Resolved(DependencyService.Get<IStorage>());
         }
 
+        private async void showMsg(ShowDialogMessage msg)
+        {
+            await this.MainPage.DisplayAlert
+                (msg.Title, msg.Message, msg.Caption);
+        }
+
         private void openView(OpenViewMessage obj)
         {
-            Type type = Type.GetType("SanGiu.Taxi.XF." + obj.NewPage);
+            string ns = "SanGiu.Taxi.XF.";
+
+            Type type = Type.GetType(ns + obj.NewPage);
+
+            if (type == null)
+            {
+                type = Type.GetType("SanGiu.Taxi.XF.Pages." + obj.NewPage);
+            }
 
             if (type != null)
             {
-                Page pg = null;
-
-                if (obj.Parameter == null)
-                {
-                    pg = Activator.CreateInstance(type) as Page;
-                }
-                else
-                {
-                    pg = Activator.CreateInstance(type, obj.Parameter) as Page;
-                }
+                Page pg = Activator.CreateInstance(type) as Page;
 
                 if (pg != null)
                 {
+                    // C'è un parametro...
+                    if (obj.Parameter != null)
+                    {
+                        // ... recupero il viewmodel della pagina... (se esiste)
+                        ApplicationViewModelBase vm = null;
+                        if (pg.Resources.ContainsKey("viewmodel"))
+                        {
+                            vm = pg.Resources["viewmodel"] as ApplicationViewModelBase;
+                            vm.Parameter = obj.Parameter;
+                        }
+                    }
+
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await this.MainPage.Navigation.PushModalAsync(pg);
                     });
                 }
             }
-        }
-
-        private async void showMsg(ShowDialogMessage msg)
-        {
-            await this.MainPage.DisplayAlert
-                (msg.Title, msg.Message, msg.Caption);
         }
     }
 }

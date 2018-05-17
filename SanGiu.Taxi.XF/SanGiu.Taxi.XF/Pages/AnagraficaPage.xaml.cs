@@ -1,4 +1,5 @@
 ﻿using SanGiu.Taxi.Repo;
+using SanGiu.Taxi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace SanGiu.Taxi.XF.Pages
 
         private void btnPrint_Clicked(object sender, EventArgs e)
         {
+            var vm = this.Resources["viewmodel"] as AnagraficaViewModel;
             Repository repo = this.Resources["localRepo"] as Repository;
 
             if (repo != null)

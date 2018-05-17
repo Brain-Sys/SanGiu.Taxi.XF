@@ -15,6 +15,11 @@ namespace SanGiu.Taxi.XF
     {
         public LoginResult LoginInfo { get; private set; }
 
+        public MenuPage()
+        {
+            InitializeComponent();
+        }
+
         public MenuPage(LoginResult loginResult)
         {
             InitializeComponent();
@@ -25,7 +30,7 @@ namespace SanGiu.Taxi.XF
         {
             base.OnAppearing();
 
-            if (this.LoginInfo.Role != "Admin")
+            if (this.LoginInfo != null && this.LoginInfo.Role != "Admin")
             {
                 //this.page3.IsVisible = false;
                 //this.page4.IsVisible = false;

@@ -15,5 +15,14 @@ namespace SanGiu.Taxi.ViewModels
                 base.RaisePropertyChanged();
             }
         }
+
+        private object parameter;
+        public object Parameter
+        {
+            get { return parameter; }
+            set { parameter = value;
+                base.RaisePropertyChanged();
+            }
+        }
     }
 }
