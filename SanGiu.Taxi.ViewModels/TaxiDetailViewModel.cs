@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
 using SanGiu.Taxi.Auth;
+using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.ViewModels.Messages;
 using SanGiu.Taxi.ViewModels.VM;
 using Sockets.Plugin;
@@ -18,6 +19,7 @@ namespace SanGiu.Taxi.ViewModels
 {
     public class TaxiDetailViewModel : ApplicationViewModelBase
     {
+        IConnectionService connectionBackgroundWorker;
         string address = "192.168.15.109";
         int port = 11000;
         Random r = new Random();
@@ -106,44 +108,63 @@ namespace SanGiu.Taxi.ViewModels
             this.ConnectCommand = new RelayCommand(ConnectCommandExecute);
         }
 
-        private async void ConnectCommandExecute()
+        private void ConnectCommandExecute()
         {
-            try
-            {
-                if (client == null)
-                {
-                    client = new TcpSocketClient();
-                    await client.ConnectAsync(address, port);
-                    backgroundTask();
-                }
+            DependencyMessage<IConnectionService> msg = new DependencyMessage<IConnectionService>();
+            msg.Resolved = async (obj) => {
 
-                var nextByte = (byte)r.Next(0, 254);
-                client.WriteStream.WriteByte(nextByte);
-                await client.WriteStream.FlushAsync();
-            }
-            catch (Exception ex)
-            {
-                ShowDialogMessage msg = new ShowDialogMessage();
-                msg.Message = ex.ToString();
-                this.MessengerInstance.Send(msg);
-            }
+                this.IsBusy = true;
+                connectionBackgroundWorker = obj;
+                await connectionBackgroundWorker.StartAsync();
+                connectionBackgroundWorker.SomethingHappened += ConnectionBackgroundWorker_SomethingHappened;
+                this.IsBusy = false;
+
+            };
+            Messenger.Default.Send(msg);
+
+            // connectionBackgroundWorker = Dependen
+
+            //try
+            //{
+            //    if (client == null)
+            //    {
+            //        client = new TcpSocketClient();
+            //        await client.ConnectAsync(address, port);
+            //        //backgroundTask();
+            //    }
+
+            //    var nextByte = (byte)r.Next(0, 254);
+            //    client.WriteStream.WriteByte(nextByte);
+            //    await client.WriteStream.FlushAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    ShowDialogMessage msg = new ShowDialogMessage();
+            //    msg.Message = ex.ToString();
+            //    this.MessengerInstance.Send(msg);
+            //}
         }
 
-        private void backgroundTask()
+        private void ConnectionBackgroundWorker_SomethingHappened(object sender, object e)
         {
-            if (client == null) return;
-            
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    long length = client.ReadStream.Length;
-                    byte[] buffer = new byte[length];
-                    await client.ReadStream.ReadAsync(buffer, 0, (int)length);
-                    this.SocketData = buffer.Length;
-                }
-            });
+            this.SocketData = e.ToString();
         }
+
+        //private void backgroundTask()
+        //{
+        //    if (client == null) return;
+
+        //    Task.Run(async () =>
+        //    {
+        //        while (true)
+        //        {
+        //            // long length = client.ReadStream.Length;
+        //            byte[] buffer = new byte[1];
+        //            await client.ReadStream.ReadAsync(buffer, 0, 1);
+        //            this.SocketData = buffer.Length;
+        //        }
+        //    });
+        //}
 
         private void PrintCommandExecute()
         {
