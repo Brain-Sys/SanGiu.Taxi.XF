@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SanGiu.Taxi.ViewModels;assembly=SanGiu.Taxi.ViewModels"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+            xmlns:cnv="clr-namespace:SanGiu.Taxi.XF.Converters"
              x:Class="SanGiu.Taxi.XF.Pages.TaxiDetailPage">
 
     <TabbedPage.Resources>
         <vm:TaxiDetailViewModel x:Key="viewmodel" />
+        <cnv:LoginResultToBoolCnv x:Key="lrToBln" />
         <Style TargetType="VisualElement" x:Key="toolbarStyle">
             <Setter Property="WidthRequest" Value="32" />
             <Setter Property="HeightRequest" Value="32" />
@@ -35,6 +37,10 @@
 
     <ContentPage BindingContext="{StaticResource viewmodel}" Title="Dettaglio">
         <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <StackLayout Orientation="Horizontal" VerticalOptions="Start"
                      Margin="8,0,0,0">
                 <StackLayout.Resources>
@@ -45,7 +51,7 @@
                         <TapGestureRecognizer Command="{Binding PrintCommand}" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image Source="PrintIcon.png" />
+                <Image Source="PrintIcon.png" IsVisible="{Binding CurrentUser,Converter={StaticResource lrToBln}}" />
                 <Image Source="PrintIcon.png">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="2"
@@ -55,7 +61,7 @@
             </StackLayout>
 
             <BoxView BackgroundColor="{StaticResource MainBrand}" HeightRequest="200"
-                     WidthRequest="200">
+                     WidthRequest="200" Grid.Row="1">
                 <BoxView.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding PrintCommand}" />
                     <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated" />

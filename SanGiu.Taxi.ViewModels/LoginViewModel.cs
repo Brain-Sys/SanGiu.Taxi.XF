@@ -184,6 +184,7 @@ namespace SanGiu.Taxi.ViewModels
                 {
                     this.Error = false;
                     this.Message = string.Empty;
+                    ApplicationContext.Instance.CurrentUser = lr;
 
                     if (this.Remember)
                     {

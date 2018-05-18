@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using SanGiu.Taxi.Auth;
 using SanGiu.Taxi.ViewModels.Messages;
 using SanGiu.Taxi.ViewModels.VM;
 using System;
@@ -51,6 +52,17 @@ namespace SanGiu.Taxi.ViewModels
             }
         }
 
+        private LoginResult currentUser;
+        public LoginResult CurrentUser
+        {
+            get { return currentUser; }
+            set
+            {
+                currentUser = value;
+                base.RaisePropertyChanged();
+            }
+        }
+
         public RelayCommand GetPositionCommand { get; set; }
         public RelayCommand CancelGpsCommand { get; set; }
         public RelayCommand PrintCommand { get; set; }
@@ -58,6 +70,8 @@ namespace SanGiu.Taxi.ViewModels
 
         public TaxiDetailViewModel()
         {
+            this.CurrentUser = ApplicationContext.Instance.CurrentUser;
+
             this.GetPositionCommand = new RelayCommand(GetPositionCommandExecute, GetPositionCommandCanExecute);
             this.CancelGpsCommand = new RelayCommand(() =>
             {
@@ -65,7 +79,8 @@ namespace SanGiu.Taxi.ViewModels
             }, () => { return this.IsBusy; });
 
             this.PrintCommand = new RelayCommand(PrintCommandExecute);
-            this.DownloadCommand = new RelayCommand(() => {
+            this.DownloadCommand = new RelayCommand(() =>
+            {
                 ShowDialogMessage msg = new ShowDialogMessage();
                 msg.Title = "Download in corso...";
                 msg.Message = "...prego attendere...";
