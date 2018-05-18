@@ -7,6 +7,10 @@
 
     <TabbedPage.Resources>
         <vm:TaxiDetailViewModel x:Key="viewmodel" />
+        <Style TargetType="VisualElement" x:Key="toolbarStyle">
+            <Setter Property="WidthRequest" Value="32" />
+            <Setter Property="HeightRequest" Value="32" />
+        </Style>
     </TabbedPage.Resources>
 
     <!--Pages can be added as references or inline-->
@@ -29,6 +33,25 @@
         </StackLayout>
     </ContentPage>
 
-    <ContentPage BindingContext="{StaticResource viewmodel}" Title="Dettaglio" />
+    <ContentPage BindingContext="{StaticResource viewmodel}" Title="Dettaglio">
+        <StackLayout Orientation="Horizontal" VerticalOptions="Start"
+                     Margin="8,0,0,0">
+            <StackLayout.Resources>
+                <Style TargetType="Image" BasedOn="{StaticResource toolbarStyle}" />
+            </StackLayout.Resources>
+            <Image Source="PrintIcon.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding PrintCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="PrintIcon.png" />
+            <Image Source="PrintIcon.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="2"
+                                          Command="{Binding PrintCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+    </ContentPage>
     <ContentPage BindingContext="{StaticResource viewmodel}" Title="Socket" />
 </TabbedPage>

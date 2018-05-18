@@ -1,6 +1,8 @@
 ﻿using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using SanGiu.Taxi.ViewModels.Messages;
 using SanGiu.Taxi.ViewModels.VM;
 using System;
 using System.Collections.Generic;
@@ -51,6 +53,7 @@ namespace SanGiu.Taxi.ViewModels
 
         public RelayCommand GetPositionCommand { get; set; }
         public RelayCommand CancelGpsCommand { get; set; }
+        public RelayCommand PrintCommand { get; set; }
 
         public TaxiDetailViewModel()
         {
@@ -59,6 +62,18 @@ namespace SanGiu.Taxi.ViewModels
             {
                 tokenSource.Cancel();
             }, () => { return this.IsBusy; });
+
+            this.PrintCommand = new RelayCommand(PrintCommandExecute);
+        }
+
+        private void PrintCommandExecute()
+        {
+            ShowDialogMessage msg = new ShowDialogMessage();
+            msg.Title = "PDF Ok!";
+            msg.Message = "Report generato!";
+            Messenger.Default.Send(msg);
+
+            // this.MessengerInstance.Send(msg);
         }
 
         private bool GetPositionCommandCanExecute()

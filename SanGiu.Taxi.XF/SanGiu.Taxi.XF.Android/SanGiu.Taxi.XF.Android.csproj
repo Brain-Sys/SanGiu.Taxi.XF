@@ -95,7 +95,6 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SanGiu.Taxi.Interfaces\SanGiu.Taxi.Interfaces.csproj">
@@ -106,6 +105,9 @@
       <Project>{20DAA065-DBFC-475B-A5F9-4540253AA2C6}</Project>
       <Name>SanGiu.Taxi.XF</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\PrintIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
