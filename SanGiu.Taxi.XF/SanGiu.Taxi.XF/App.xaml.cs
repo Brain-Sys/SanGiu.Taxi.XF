@@ -48,6 +48,12 @@ namespace SanGiu.Taxi.XF
             Messenger.Default.Register<QuestionMessage>(this, makeQuestion);
             Messenger.Default.Register<OpenViewMessage>(this, openView);
             Messenger.Default.Register<DependencyMessage<IStorage>>(this, resolveDependency);
+            Messenger.Default.Register<DependencyMessage<IConnectionService>>(this, resolveConnectionDependency);
+        }
+
+        private void resolveConnectionDependency(DependencyMessage<IConnectionService> obj)
+        {
+            obj.Resolved(DependencyService.Get<IConnectionService>());
         }
 
         private async void makeQuestion(QuestionMessage msg)

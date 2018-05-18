@@ -115,8 +115,8 @@ namespace SanGiu.Taxi.ViewModels
 
                 this.IsBusy = true;
                 connectionBackgroundWorker = obj;
-                await connectionBackgroundWorker.StartAsync();
                 connectionBackgroundWorker.SomethingHappened += ConnectionBackgroundWorker_SomethingHappened;
+                await connectionBackgroundWorker.StartAsync();
                 this.IsBusy = false;
 
             };

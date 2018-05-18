@@ -42,6 +42,7 @@ namespace SanGiu.Taxi.XF.Droid.Implementations
         {
             client = new TcpSocketClient();
             await client.ConnectAsync(address, port);
+            this.SomethingHappened?.Invoke(this, "Connection successful...");
         }
 
         public async Task StopAsync()

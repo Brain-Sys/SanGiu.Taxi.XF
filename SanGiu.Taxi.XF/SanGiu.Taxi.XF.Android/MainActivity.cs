@@ -7,6 +7,8 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Xamarin;
+using Android.Content;
+using SanGiu.Taxi.XF.Droid.Implementations;
 
 namespace SanGiu.Taxi.XF.Droid
 {
@@ -22,8 +24,17 @@ namespace SanGiu.Taxi.XF.Droid
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             FormsMaps.Init(this, bundle);
+
             var app = new App();
             LoadApplication(app);
+        }
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+
+            var intent = new Intent(this, typeof(AndroidConnectionService));
+            StartService(intent);
         }
     }
 }
