@@ -10,7 +10,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Plugin.LocalNotifications;
-using Plugin.Notifications;
 using SanGiu.Taxi.Interfaces;
 using Sockets.Plugin;
 using Xamarin.Forms;
@@ -62,11 +61,11 @@ namespace SanGiu.Taxi.XF.Droid.Implementations
             await client.WriteStream.FlushAsync();
         }
 
-        private void backgroundTask()
+        private async void backgroundTask()
         {
             if (client == null) return;
 
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 while (true)
                 {
