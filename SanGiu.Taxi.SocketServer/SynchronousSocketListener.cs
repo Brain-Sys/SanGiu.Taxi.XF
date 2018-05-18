@@ -65,6 +65,7 @@ namespace SanGiu.Taxi.SocketServer
 
                     // Echo the data back to the client.  
                     msg = Encoding.ASCII.GetBytes(data);
+                    System.Threading.Thread.Sleep(10000);
                     handler.Send(msg);
                 }
                 

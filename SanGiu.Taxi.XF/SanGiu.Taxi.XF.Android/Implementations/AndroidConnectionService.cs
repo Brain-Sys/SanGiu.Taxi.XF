@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Plugin.LocalNotifications;
+using Plugin.Notifications;
 using SanGiu.Taxi.Interfaces;
 using Sockets.Plugin;
 using Xamarin.Forms;
@@ -42,6 +44,7 @@ namespace SanGiu.Taxi.XF.Droid.Implementations
         {
             client = new TcpSocketClient();
             await client.ConnectAsync(address, port);
+            backgroundTask();
             this.SomethingHappened?.Invoke(this, "Connection successful...");
         }
 
@@ -70,6 +73,8 @@ namespace SanGiu.Taxi.XF.Droid.Implementations
                     byte[] buffer = new byte[1];
                     await client.ReadStream.ReadAsync(buffer, 0, 1);
                     this.BytesRead = buffer.Length;
+
+                    CrossLocalNotifications.Current.Show("title", "body", 101);
 
                     this.SomethingHappened?.Invoke(this, buffer);
                 }

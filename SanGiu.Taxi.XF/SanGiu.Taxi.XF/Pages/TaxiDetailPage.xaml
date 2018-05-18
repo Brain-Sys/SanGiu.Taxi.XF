@@ -75,11 +75,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Button Text="Connetti Socket" Command="{Binding ConnectCommand}" />
-            <Label Text="{Binding SocketData}" Grid.Row="1" />
+            <Button Text="Invia dati" Grid.Row="1" Command="{Binding SendCommand}" />
+            <Label Text="{Binding SocketData}" Grid.Row="2" />
 
         </Grid>
     </ContentPage>

@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight.Messaging;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Plugin.LocalNotifications;
 using SanGiu.Taxi.Auth;
 using SanGiu.Taxi.Interfaces;
 using SanGiu.Taxi.ViewModels.Messages;
@@ -86,6 +87,7 @@ namespace SanGiu.Taxi.ViewModels
         public RelayCommand PrintCommand { get; set; }
         public RelayCommand DownloadCommand { get; set; }
         public RelayCommand ConnectCommand { get; set; }
+        public RelayCommand SendCommand { get; set; }
 
         public TaxiDetailViewModel()
         {
@@ -106,10 +108,20 @@ namespace SanGiu.Taxi.ViewModels
                 Messenger.Default.Send(msg);
             });
             this.ConnectCommand = new RelayCommand(ConnectCommandExecute);
+            this.SendCommand = new RelayCommand(SendCommandExecute);
+        }
+
+        private async void SendCommandExecute()
+        {
+            this.IsBusy = true;
+            await connectionBackgroundWorker.WriteAsync(50);
+            this.IsBusy = false;
         }
 
         private void ConnectCommandExecute()
         {
+            CrossLocalNotifications.Current.Show("title", "body", 101, DateTime.Now.AddSeconds(5));
+
             DependencyMessage<IConnectionService> msg = new DependencyMessage<IConnectionService>();
             msg.Resolved = async (obj) => {
 
@@ -117,6 +129,7 @@ namespace SanGiu.Taxi.ViewModels
                 connectionBackgroundWorker = obj;
                 connectionBackgroundWorker.SomethingHappened += ConnectionBackgroundWorker_SomethingHappened;
                 await connectionBackgroundWorker.StartAsync();
+
                 this.IsBusy = false;
 
             };
