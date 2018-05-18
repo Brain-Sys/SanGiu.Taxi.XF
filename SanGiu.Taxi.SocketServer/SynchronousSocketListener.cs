@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,6 +14,8 @@ namespace SanGiu.Taxi.SocketServer
 
         public static void StartListening()
         {
+            Debug.WriteLine("Start Listening...");
+
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
 
@@ -20,8 +23,9 @@ namespace SanGiu.Taxi.SocketServer
             // Dns.GetHostName returns the name of the   
             // host running the application.  
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = ipHostInfo.AddressList[0];
-            IPEndPoint localEndPoint = new IPEndPoint(IPAddress.Parse("192.168.15.109"), 11000);
+            IPAddress ipAddress = ipHostInfo.AddressList[3];
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+            Debug.WriteLine(ipAddress.ToString());
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(ipAddress.AddressFamily,
@@ -34,36 +38,38 @@ namespace SanGiu.Taxi.SocketServer
                 listener.Bind(localEndPoint);
                 listener.Listen(10);
 
+                byte[] msg;
+                Socket handler = null;
+
                 // Start listening for connections.  
                 while (true)
                 {
                     Console.WriteLine("Waiting for a connection...");
                     // Program is suspended while waiting for an incoming connection.  
-                    Socket handler = listener.Accept();
+                    handler = listener.Accept();
                     data = null;
 
                     // An incoming connection needs to be processed.  
-                    while (true)
-                    {
-                        bytes = new byte[1024];
-                        int bytesRec = handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
-                        {
-                            break;
-                        }
-                    }
+                    bytes = new byte[1024];
+                    int bytesRec = handler.Receive(bytes);
+                    Console.WriteLine("Receveied" + bytesRec);
+
+                    data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
+                    //if (data.IndexOf("<EOF>") > -1)
+                    //{
+                    //    break;
+                    //}
 
                     // Show the data on the console.  
                     Console.WriteLine("Text received : {0}", data);
 
                     // Echo the data back to the client.  
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
-
+                    msg = Encoding.ASCII.GetBytes(data);
                     handler.Send(msg);
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
                 }
+                
+                handler.Shutdown(SocketShutdown.Both);
+                handler.Close();
 
             }
             catch (Exception e)

@@ -70,5 +70,17 @@
             
         </Grid>
     </ContentPage>
-    <!--<ContentPage BindingContext="{StaticResource viewmodel}" Title="Socket" />-->
+    <ContentPage BindingContext="{StaticResource viewmodel}" Title="Socket">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Text="Connetti Socket" Command="{Binding ConnectCommand}" />
+            <Label Text="{Binding SocketData}" Grid.Row="1" />
+
+        </Grid>
+    </ContentPage>
 </TabbedPage>

@@ -5,6 +5,7 @@ using Plugin.Geolocator.Abstractions;
 using SanGiu.Taxi.Auth;
 using SanGiu.Taxi.ViewModels.Messages;
 using SanGiu.Taxi.ViewModels.VM;
+using Sockets.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +18,10 @@ namespace SanGiu.Taxi.ViewModels
 {
     public class TaxiDetailViewModel : ApplicationViewModelBase
     {
+        string address = "192.168.15.109";
+        int port = 11000;
+        Random r = new Random();
+        TcpSocketClient client;
         CancellationTokenSource tokenSource;
 
         private TaxiVM currentItem;
@@ -63,10 +68,22 @@ namespace SanGiu.Taxi.ViewModels
             }
         }
 
+        private object socketData;
+        public object SocketData
+        {
+            get { return socketData; }
+            set
+            {
+                socketData = value;
+                base.RaisePropertyChanged();
+            }
+        }
+
         public RelayCommand GetPositionCommand { get; set; }
         public RelayCommand CancelGpsCommand { get; set; }
         public RelayCommand PrintCommand { get; set; }
         public RelayCommand DownloadCommand { get; set; }
+        public RelayCommand ConnectCommand { get; set; }
 
         public TaxiDetailViewModel()
         {
@@ -85,6 +102,46 @@ namespace SanGiu.Taxi.ViewModels
                 msg.Title = "Download in corso...";
                 msg.Message = "...prego attendere...";
                 Messenger.Default.Send(msg);
+            });
+            this.ConnectCommand = new RelayCommand(ConnectCommandExecute);
+        }
+
+        private async void ConnectCommandExecute()
+        {
+            try
+            {
+                if (client == null)
+                {
+                    client = new TcpSocketClient();
+                    await client.ConnectAsync(address, port);
+                    backgroundTask();
+                }
+
+                var nextByte = (byte)r.Next(0, 254);
+                client.WriteStream.WriteByte(nextByte);
+                await client.WriteStream.FlushAsync();
+            }
+            catch (Exception ex)
+            {
+                ShowDialogMessage msg = new ShowDialogMessage();
+                msg.Message = ex.ToString();
+                this.MessengerInstance.Send(msg);
+            }
+        }
+
+        private void backgroundTask()
+        {
+            if (client == null) return;
+            
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    long length = client.ReadStream.Length;
+                    byte[] buffer = new byte[length];
+                    await client.ReadStream.ReadAsync(buffer, 0, (int)length);
+                    this.SocketData = buffer.Length;
+                }
             });
         }
 
