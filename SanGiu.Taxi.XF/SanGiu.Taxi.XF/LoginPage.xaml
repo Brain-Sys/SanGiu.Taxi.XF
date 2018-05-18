@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SanGiu.Taxi.ViewModels;assembly=SanGiu.Taxi.ViewModels"
+             xmlns:mk="clr-namespace:SanGiu.Taxi.XF.Markup"
              x:Class="SanGiu.Taxi.XF.LoginPage">
 
     <ContentPage.Resources>
@@ -13,13 +14,17 @@
     </ContentPage.BindingContext>-->
 
     <Grid BindingContext="{StaticResource viewmodel}">
-
-        
-
         <StackLayout VerticalOptions="Center" Margin="12,0">
-            <Label Text="Nome Utente" />
+
+            <!--<Label Text="{mk:Excel File=Pippo.xls,Cell=A3}" />-->
+            <!--<Led IsOn="{mk:Socket=COM2,Address=9610,Bit=5}" />
+            <Led IsOn="{mk:Port=COM4,Address=910010,Bit=8}" />-->
+            <!--<Label Text="{mk:Math Expression='1+1'}" />-->
+            <!--<Image Source="{mk:PCLImage Pippo.png}" />-->
+
+            <Label Text="{mk:Translate Language=en,Key=UsernameLabel}" />
             <Entry Text="{Binding Username}" />
-            <Label Text="Password" />
+            <Label Text="{mk:Translate Language=en,Key=PasswordLabel}" />
             <Entry IsPassword="True" Text="{Binding Password}" />
             <Grid>
                 <Grid.ColumnDefinitions>

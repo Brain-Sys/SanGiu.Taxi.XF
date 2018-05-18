@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SanGiu.Taxi.Auth\SanGiu.Taxi.Auth.csproj" />
     <ProjectReference Include="..\..\SanGiu.Taxi.Repo\SanGiu.Taxi.Repo.csproj" />
+    <ProjectReference Include="..\..\SanGiu.Taxi.Translations\SanGiu.Taxi.Translations.csproj" />
     <ProjectReference Include="..\..\SanGiu.Taxi.ViewModels\SanGiu.Taxi.ViewModels.csproj" />
   </ItemGroup>
 
