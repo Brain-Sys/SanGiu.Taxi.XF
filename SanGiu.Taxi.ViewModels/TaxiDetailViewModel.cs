@@ -54,6 +54,7 @@ namespace SanGiu.Taxi.ViewModels
         public RelayCommand GetPositionCommand { get; set; }
         public RelayCommand CancelGpsCommand { get; set; }
         public RelayCommand PrintCommand { get; set; }
+        public RelayCommand DownloadCommand { get; set; }
 
         public TaxiDetailViewModel()
         {
@@ -64,6 +65,12 @@ namespace SanGiu.Taxi.ViewModels
             }, () => { return this.IsBusy; });
 
             this.PrintCommand = new RelayCommand(PrintCommandExecute);
+            this.DownloadCommand = new RelayCommand(() => {
+                ShowDialogMessage msg = new ShowDialogMessage();
+                msg.Title = "Download in corso...";
+                msg.Message = "...prego attendere...";
+                Messenger.Default.Send(msg);
+            });
         }
 
         private void PrintCommandExecute()
