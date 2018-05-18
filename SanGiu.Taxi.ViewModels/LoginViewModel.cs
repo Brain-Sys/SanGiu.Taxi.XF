@@ -112,7 +112,8 @@ namespace SanGiu.Taxi.ViewModels
             var msg = new DependencyMessage<IStorage>();
 
             // Funzione di callback
-            msg.Resolved = (IStorage resolver) => {
+            msg.Resolved = (IStorage resolver) =>
+            {
                 if (resolver == null) return;
 
                 var dir = resolver.GetCurrentDirectory();
@@ -154,13 +155,15 @@ namespace SanGiu.Taxi.ViewModels
         {
             this.IsBusy = true;
 
+            LoginResult lr = null;
+
             await Task.Run(async () =>
             {
 #if DEBUG
                 await Task.Delay(500);
 #endif
 
-                var lr = Authentication.Check(this.Username, this.Password);
+                lr = Authentication.Check(this.Username, this.Password);
 
                 #region Success == false
                 if (lr.Success == false)
@@ -186,16 +189,19 @@ namespace SanGiu.Taxi.ViewModels
                     {
                         saveCredentialsOnFile();
                     }
+                }
+                #endregion
+            });
 
-                    Messenger.Default.Send<OpenViewMessage>
+            if (lr != null && lr.Success)
+            {
+                Messenger.Default.Send<OpenViewMessage>
                         (new OpenViewMessage()
                         {
                             NewPage = "MenuPage",
                             Parameter = lr
                         });
-                }
-                #endregion
-            });
+            }
 
             this.IsBusy = false;
         }

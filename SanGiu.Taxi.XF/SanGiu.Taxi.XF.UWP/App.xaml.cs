@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Xamarin;
 
 namespace SanGiu.Taxi.XF.UWP
 {
@@ -53,6 +54,7 @@ namespace SanGiu.Taxi.XF.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
+                FormsMaps.Init("28ii9Qv3xYaI1ZJHURGf~B3kmOZCioD9swP00PZW9bg~As3o2dResn4kBpSP1GSTSdWbOMNjD024hGEoxUAunAAZZxig0X94-zzZR5BzVEJ0");
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
